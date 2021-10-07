@@ -1,0 +1,90 @@
+
+html, body{
+    width: 100vw;
+    margin: 0%;
+    padding: 0%;
+    font-size: 16px;
+    font-size: .75vw;
+    overflow-x: hidden;
+    color: white;
+}
+
+
+h1{
+    font-family: 'Oswald', sans-serif;
+    font-weight: normal;
+}
+
+#right{
+    height: 100vh;
+}
+#right .bg{
+    z-index: 1;
+    height: 100%;
+    width: 105%;
+}
+#caption{
+    z-index: 2;
+    position: fixed;
+    bottom: 0%;
+    right: 3vw;
+    color:grey;
+}
+#caption a{color: lightgray; text-decoration: none;}
+
+#left{
+    background-color: rgb(19, 46, 65);
+}
+#left .container{
+    padding: 5rem 5rem 5rem 18rem;
+}
+
+#menu{
+    background-color: rgb(194, 94, 13);
+    height: 100vh;
+    width: 10vw;
+    position: absolute;
+    left: 0%;
+    padding: 6rem 2rem 6rem 2rem;
+    text-align: center;
+}
+#NM-logo{
+    width: 3rem;
+    position: absolute;
+    bottom: 2rem;
+    left: 5rem;
+}
+
+#menu .material-icons{
+    font-size: 4rem;
+}
+
+.menu-list{
+    list-style: none;
+    padding: 1rem .5rem;
+    font-size: 1rem;
+    text-align: start;
+    font-family:'Lato', sans-serif;
+    border-top: 1px solid hsla(0, 0%, 96%, 0.5);
+    text-align: center;
+    font-weight: 600;
+}
+.menu-list:nth-last-child(2){
+    border-bottom: 1px solid hsla(0, 0%, 96%, 0.5);
+}
+.menu-list:hover{
+    background-color: rgba(206, 111, 34, 0.562)
+}
+
+
+
+
+#FUbutton{
+    position: fixed;
+    left: 50%;
+    bottom: 0%
+}
+
+#disclaimerModal .modal-body{
+    color: black;
+}
