@@ -46,6 +46,4 @@ class TOOLS(models.Model):
         ]
 
 
-TOOLS(1,'BLANK SAILING','blanksailing').save()
-TOOLS(2,'VESSEL ROUTE','vesselroute').save()
 
