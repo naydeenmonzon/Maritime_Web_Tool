@@ -1,23 +1,51 @@
-import datetime
+from enum import auto
+import os
+from datetime import datetime
+from typing import Iterable
+from django.contrib.admin.sites import AdminSite
+from django.contrib import admin
 from django.db import models
-from django.utils import timezone
-# Create your models here.
+from django.db.models import indexes
+from django.db.models import fields
+from django.db.models.fields import Field
+from django.template.context import make_context
+from django.utils.translation import gettext_lazy as _
+import calendar
+from django.template import Context
 
 
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
+#from scrape.views import blanksailing, vesselroute
+#from django.db.models.enums import Choices
 
+currentMonth = datetime.now().month
+currentYear = datetime.now().year
+
+
+monthsNUM = [currentMonth for currentMonth in range(1,13)]
+monthsNAME = [calendar.month_name[month_idx] for month_idx in range(1, 13)]
+
+monthLIST = list(zip(monthsNAME,monthsNUM))
+monthDICT = dict(zip(monthsNUM,monthsNAME))
+
+class TOOLS(models.Model):
+    id = models.SmallIntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    urlNAME = models.CharField(max_length=50)
+    def __init__(self, *args, **kwargs) -> None:
+        super(TOOLS, self).__init__(*args, **kwargs)
     def __str__(self):
-        return self.question_text
+        return (self.urlNAME, self.name)
 
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    @admin.display(boolean=True)
+    def test(self):
+        return self.urlNAME
 
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+    class Meta:
+        indexes = [
+            models.Index(fields=['urlNAME'], name='urlNAME_idx')
+        ]
 
-    def __str__(self):
-        return self.choice_text
+
+TOOLS(1,'BLANK SAILING','blanksailing').save()
+TOOLS(2,'VESSEL ROUTE','vesselroute').save()
+

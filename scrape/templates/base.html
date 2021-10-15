@@ -1,53 +1,51 @@
 <!DOCTYPE html>
 <html>
+
     {% load static %}
 <head>
 <title>Python Getting Started on Heroku</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/font.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/font.css">
 </head>
-<body>
+<body  onload="loadData()">
     <div class="container-fluid">
         <div class="row g-0">
-            
-            <div class="container-fluid" id="menu">
-                <span class="material-icons" style="margin-bottom: 20vh;">directions_boat</span>
-                <div class="menu-list">BLANK SAILING</div>
-                <div class="menu-list">VESSEL ROUTE</div>
+  
+            <nav class="container-fluid" id="menu" role="navigation">
+                <a href="{% url 'scrape:index' %}"><span class="material-icons" style="margin-bottom: 20vh; color: aliceblue;">directions_boat</span></a>
+                    <div class="menu-list">
+                        <a class="text-white text-decoration-none" href="{% url 'scrape:blanksailing' %}">Blank Sailing</a>
+                    </div>
+                    <div class="menu-list">
+                        <a class="text-white text-decoration-none" href="{% url 'scrape:vesselroute' %}">Vessel Route</a>
+                    </div>
                 <img src="../static/img/NM-logo-W.png" alt="" id="NM-logo">
-            </div>
+            </nav>
 
             <div class="col-8" id="left">
                 <div class="container">
                     <h1 class="display-1">Maritime Logistics Tools</h1>
                     <hr style="width:75%;">
                     <p class="text-white-50">This tool is not intended for commercial use.</p>
+                {% block content %}
 
-                    <div class="row justify-content-around" style=" margin-top: 8vh;">
-                        <div class="col-9 p-4">
-                            <p ><span style="font-size: x-large;">Welcome!</span> The purpose of this tool is to gather service udpate and company development from the top leading Global Ocean Carriers for research purposes.</p>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block p-4">
-                                <h5>Tools:</h5>
-                                <ul>
-                                    <li>Python</li>
-                                    <li>Heroku</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                </div>
+                {% endblock %}
+
+
+            </div>
                 <button id="FUbutton" type="button" class="btn text-warning text-capitalize fs-6" data-bs-toggle="modal" data-bs-target="#disclaimerModal">FAIR USE DISCLAIMER</button>
             </div>
 
 
             <div class="col-4" id="right">
+<!--------  ---------->
+                {% block dashboard %}
+
+                {% endblock %}
+
                 <img src="../static/img/container-bg.jpg" alt="" class="bg">
                 <div id="caption">
                     <caption>Photo by <a href="https://unsplash.com/@aronyigin?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Aron Yigin</a> on <a href="https://unsplash.com/s/photos/shipping-container?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
@@ -56,7 +54,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="disclaimerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -88,7 +85,46 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+
+    <script type="text/javascript">
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var d = new Date();
+        const currentMONTH = d.getMonth()
+        function loadData(){
+            document.getElementsByName('month').forEach((value)=>{
+                if (value.className == 'slider')
+                    value.defaultValue = currentMONTH
+                else value.defaultValue = months[d.getMonth()]
+            })
+            document.querySelectorAll('.monthli').forEach((ul)=>{
+                ul.children.item(currentMONTH).style.opacity = '1'
+                ul.children.item(currentMONTH).style.transform  = 'scale(1.25)'
+            })
+        }
+    </script>
+    <script type="text/javascript">
+
+        function showDate(id1,id2, id3){
+            var slide = document.getElementById(id1)
+            var slideValue = document.getElementById(id2).innerHTML = parseInt(slide.value) +1
+            var OutputView = document.getElementById(id2).innerHTML = months[slide.value]
+            var mLIST = document.getElementById(id3).getElementsByTagName('li')
+            var mLI = Object.values(mLIST)
+            for (var obj of mLI){
+                if (obj.value == slideValue){
+                    obj.style.opacity = '1'
+                    obj.style.transform  = 'scale(1.25)'
+                }
+                else{ obj.style.opacity = '.5'
+                obj.style.transform  = 'scale(1)'}
+            }
+        }
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 </body>
 </html>
+
