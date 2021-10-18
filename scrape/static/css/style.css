@@ -1,80 +1,36 @@
-
-*{box-sizing: 100%;}
-html, body{
-    width: 100vw;
-    margin: 0%;
-    padding: 0%;
-    font-size: 16px;
-    font-size: .75vw;
-    overflow-x: hidden;
-    color: white;
-}
-
-
-a{
-    color: white;
-    text-decoration: none;
-}
-h1{
-    font-family: 'Oswald', sans-serif;
-    font-weight: normal;
-}
-
-#right{
-    height: 100vh;
-}
-#right .bg{
-    z-index: 1;
-    height: 100%;
-    width: 105%;
-}
-#caption{
-    z-index: 2;
-    position: fixed;
-    bottom: 0%;
-    right: 3vw;
-    color:grey;
-}
-#caption a{color: lightgray; text-decoration: none;}
-
-#left{
-    background-color: #132e41;
-}
-#left .container{
-    padding: 5rem 5rem 5rem 18rem;
-}
-
-#menu{
-    background-color: rgb(194, 94, 13);
-    height: 100vh;
-    width: 10vw;
+/* -------------------MENU------------------- */
+nav{
     position: absolute;
     left: 0%;
-    padding: 6rem 2rem 6rem 2rem;
+
+}
+.nav-wrapper{
+    background-color: rgb(194, 94, 13);
+    height: 100vh;
+    width: 8vw;
     text-align: center;
 }
 #NM-logo{
     width: 3rem;
-    position: absolute;
-    bottom: 2rem;
-    left: 5rem;
+    position: relative;
+    left: 4rem;
+    bottom: -5rem;
 }
-
 #menu .material-icons{
-    font-size: 4rem;
+    margin-top: -4rem;
+    font-size: 5rem;
 }
-
+.list-wrapper{margin-top: -4rem;}
 .menu-list{
     list-style: none;
-    padding: 1rem .5rem;
+    padding: 2rem 0 2rem 0;
     font-size: 1rem;
-    text-align: start;
     font-family:'Lato', sans-serif;
     border-top: 1px solid hsla(0, 0%, 96%, 0.5);
     text-align: center;
     font-weight: 600;
 }
-.menu-list:nth-last-child(2){
+.menu-list:nth-last-child(1){
     border-bottom: 1px solid hsla(0, 0%, 96%, 0.5);
 }
 .menu-list:hover{
@@ -84,32 +40,58 @@ h1{
 
 
 
+
+/* -------------------LEFT GRID------------------- */
+#left{
+    background-color: #132e41;
+}
+#left .container{
+    padding: 4rem 2rem 4rem 10vw;
+}
+
+/* -------------------RIGHT GRID------------------- */
+
+
+#caption{
+    position: absolute;
+    bottom: 0%;
+    right: 3vw;
+    color:grey;
+}
+#caption a{color: lightgray; text-decoration: none;}
+
 #FUbutton{
     position: fixed;
     left: 50%;
     bottom: 0%
 }
-
 #disclaimerModal .modal-body{
-    color: black;
+    color: #0c1d30;
 }
 
 
+
+
+/* -------------------DASHBOARD------------------- */
 #dashboard{
-    z-index: 10;
-    position: fixed;
-    top: 10rem; right: 2rem;
-    height: 80vh;
-    width: 30vw;
+    position: relative;
+    top: 10vh;
+    left: 0vw;
+    height: max-content;
+    width: 28vw;
     background-color: #000f2466;
     backdrop-filter:blur(4px)saturate(150%);
     border-radius: 7% / 5%;
+    font-variant: small-caps;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bolder;
 }
 
 input[type=range] {
     position: relative;
     z-index: 2;
     top: -11.75rem;
+    right: -2rem;
     padding: 0%;
     width: 20.5rem;
     height: 3rem;
@@ -164,23 +146,7 @@ input[type=range]::-moz-range-progress {
     box-sizing: content-box;
     box-shadow: var(--color-top);
 }
-:root {
-    --primary-light: #8abdff;
-    --primary: #6d5dfc;
-    --primary-dark: #5b0eeb;
-    --color-top:linear-gradient(330deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
-    --pr-blue: #132e41;
-    --greyLight-1: #396d92;
-    --greyLight-2: #2d5674;
-    --greyLight-3: #213f55;
-    --greyDark: #9baacf;
-    --shadow: .3rem .3rem .6rem var(--greyLight-2), 
-    -.2rem -.2rem .5rem var(--pr-blue);
-    --inner-shadow: inset .5em .5em 1rem rgba(100, 100, 100, 0.3), 
-    inset .2em .2em .3rem rgba(0, 0, 0, 0.3),
-    .2em .2em .3rem rgba(0, 0, 0, 0.37);
 
-}
 .monthli ul{
     padding: 0;
     width: calc(100% + 1rem);
@@ -202,3 +168,6 @@ input[type=range]::-moz-range-progress {
     top: 0px;
     right: 0rem;
 }
+
+
+
