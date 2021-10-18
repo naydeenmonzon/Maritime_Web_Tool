@@ -129,15 +129,15 @@ monthsNAME = [calendar.month_name[month_idx] for month_idx in range(1, 13)]
 monthLIST = list(zip(monthsNAME,monthsNUM))
 monthDICT = dict(zip(monthsNUM,monthsNAME))
 
-Carriers.create('hlc','Hapag-Lloyd')
-Carriers.create('cma', 'CMA')
-Carriers.create('maeu', 'Maersk')
-Carriers.create('msc', 'MSC')
+#Carriers.create('hlc','Hapag-Lloyd')
+#Carriers.create('cma', 'CMA')
+#Carriers.create('maeu', 'Maersk')
+#Carriers.create('msc', 'MSC')
 
 
-Years.create(2020)
-Years.create(2021)
+#Years.create(2020)
+#Years.create(2021)
 
 
-MonthFrom(monthsNAME,monthsNUM)
-MonthTo(monthsNAME,monthsNUM)
+#MonthFrom(monthsNAME,monthsNUM)
+#MonthTo(monthsNAME,monthsNUM)
