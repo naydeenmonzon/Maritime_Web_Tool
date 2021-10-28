@@ -2,10 +2,8 @@ from django.contrib import admin
 
 
 
-from scrape.models import Filters
+# from scrape.forms import BSfilterForm
 
-@admin.register(Filters)
-class AuthorAdmin(admin.ModelAdmin):
-    pass
-
-
+# @admin.register(BSfilterForm)
+# class AuthorAdmin(admin.ModelAdmin):
+#     pass

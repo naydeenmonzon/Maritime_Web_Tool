@@ -1,14 +1,196 @@
-from selenium import webdriver
 import os
-from selenium.webdriver.chrome import service
-from selenium.webdriver.chrome.service import Service
+from selenium.common.exceptions import NoSuchElementException
+# from splinter import browser
 
-s = Service('C:\\bin\\chromedriver.exe')
-chrome_options = webdriver.ChromeOptions()
-chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--nosandbox")
-driver = webdriver.Chrome(service =s, options=chrome_options)
+# chrome_options = webdriver.ChromeOptions()
+# chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+# chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--disable-dev-shm-usage")
+# chrome_options.add_argument("--nosandbox")
+# driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
+from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+from bs4 import BeautifulSoup as bs
+
+# from selenium import webdriver
+# from selenium.webdriver import Chrome
+# from selenium.webdriver.chrome.options import Options
+
+# from splinter import Browser
+
+import time
+from datetime import datetime
+
+import json
+import re
+
+year = '2021'
+topic = 'surcharges'
+
+
+
+
+def countDIV(element):
+    i = 0
+    for x in element:
+        i += 1
+    return i
+
+def screenSize():
+    driver = _init_browser()
+    width = driver.get_window_size().get("width")
+    height = driver.get_window_size().get("height")
+    screen = [width,height]
+
+    print(width,height)
+    return screen
+
+
+def _init_browser():
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    options = Options()
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.page_load_strategy = 'normal'
+    driver = webdriver.Chrome(**executable_path,options=options)
+
+    return driver
+
+
+
+def HPAG(year,topic):
+    
+    driver = _init_browser()
+    HLC_homepage = 'https://www.hapag-lloyd.com/en/home.html' 
+    driver.get(HLC_homepage)
+
+
+    driver.implicitly_wait(10)
+
+    try:
+        time.sleep(5)
+        privacy = driver.find_element(By.CSS_SELECTOR, ".save-preference-btn-handler")
+        privacy.click()
+    except NoSuchElementException:
+        print('didnt pass cookie check')
+        driver.quit()
+
+    driver.maximize_window()
+    screenSize()
+    driver.implicitly_wait(10)
+
+    
+
+    try:
+        HLC_newspage = f'https://www.hapag-lloyd.com/en/services-information/news.html#selectedtopics={topic}&year={year}&month='
+        driver.get(HLC_newspage)
+
+    except:
+        driver.quit()
+    
+    finally:
+        print('loop function begins')
+        counter = 0
+        more = driver.find_element(By.CSS_SELECTOR,'button[class="hal-button hal-button--primary"]')
+        while more.is_enabled() is True:
+        
+            more.click()
+            time.sleep(5)
+            counter += 1
+            wrapper = driver.find_elements(By.XPATH,'/html[1]/body[1]/div[4]/div[2]/div[2]/div[1]/div[2]/main[1]/div[1]/div[1]/div[1]/div[1]/div')
+            if countDIV(wrapper) == 1:
+                break
+    
+    html = driver.page_source
+    print(f'LoadMore btn click {counter} times')
+
+    soup = bs(html, 'html.parser')
+
+    articles = soup.find_all('div', class_='hal-teaser-text')
+    
+    l = []
+    for article in articles:
+        a = article.find('a', class_='hal-teaser-heading').text
+        l.append(a)
+        print(a)
+
+    
+    driver.quit()
+
+HPAG(year,topic)
+
+
+
+
+
+# driver.implicitly_wait(10)
+# try:
+#     openMenu = driver.find_element(By.CSS_SELECTOR,".hal-navigation-top-menu-icon").click()
+#     driver.implicitly_wait(2)
+#     clickNews = driver.find_element(By.XPATH,"//span[normalize-space()='Services & Information']").click()
+#     driver.implicitly_wait(2)
+#     closeMenu = driver.find_element(By.CSS_SELECTOR,".hal-navigation-top-clear-icon").click()
+#     print('Browsing by links WORKS!')
+# except:
+#     print('Loading NewsLink Manually')
+#     driver.get('https://www.hapag-lloyd.com/en/services-information/news.html')
+# finally:
+#     driver.implicitly_wait(3)
+#     AllNews = "div[class='hal-newsstream'] a[class='hal-button']"
+#     driver.find_element(By.CSS_SELECTOR,AllNews).click()
+
+
+    
+
+
+    # driver.implicitly_wait(5)
+    # html = driver.page_source
+
+    # print(html)
+
+
+
+    # f = Tinput
+    # y = Yinput
+    # try:
+
+        ##  MAXIMIZE WINDOW TO GET YEAR FILTER  ##
+        # driver.maximize_window()
+        # # screenSize()
+        # yr = driver.find_element(By.XPATH,f'//input[@id="hal-margincolumn-timeline-input-toggle-{y}"]')
+        # driver.implicitly_wait(5)
+        # yr.click
+        # if yr.is_enabled() is True:
+        #     yr.click()
+        #     print(yr.is_selected())
+        # else:
+        #     print('yr is not enabled')
+        # driver.implicitly_wait(5)
+        # filters = {}
+        # allfilter = driver.find_element(By.CSS_SELECTOR,'.hal-searchfilter.hal-searchfilter--secondary')
+        # filterLabels = allfilter.find_elements(By.TAG_NAME,"label")
+        # for x in filterLabels:
+        #     checkbox = x.find_element(By.TAG_NAME,"input")
+        #     print(checkbox.is_selected())
+        #     span = x.find_element(By.TAG_NAME,"span").text
+        #     filters.update({span:checkbox})
+
+        # selectFilter = filters[f]
+        # selectFilter.click()
+        # print(selectFilter.is_selected())
+    # except:
+    #     print('didnt work!')
+    #     driver.quit()
+
+
+    # loadAllData(Tinput,Yinput)
 

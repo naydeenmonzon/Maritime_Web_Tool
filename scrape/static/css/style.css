@@ -1,4 +1,6 @@
+
 /* -------------------MENU------------------- */
+
 nav{
     position: absolute;
     left: 0%;
@@ -74,24 +76,39 @@ nav{
 
 /* -------------------DASHBOARD------------------- */
 #dashboard{
+    z-index: 2;
     position: relative;
-    top: 10vh;
+    top: 2rem;
     left: 0vw;
     height: max-content;
     width: 28vw;
-    background-color: #000f2466;
-    backdrop-filter:blur(4px)saturate(150%);
     border-radius: 7% / 5%;
     font-variant: small-caps;
     font-family: 'Raleway', sans-serif;
     font-weight: bolder;
 }
+#dashboard-bg{
+    z-index: -1;
+    position: absolute;
+    top:0;
+    right: 0;
+    display: block;
+    background-color: #000f2466;
+    backdrop-filter:blur(3px)saturate(120%);
+    width: 100%;
+    height: 100%;
+    border-radius: 7% / 5%;;
+    -webkit-backdrop-filter:blur(3px)saturate(120%);
+}
+#dashboard::backdrop{
+    filter: blur(3px)saturate(120%);
+    background-blend-mode: color-burn, luminosity;
+}
 
 input[type=range] {
-    position: relative;
-    z-index: 2;
-    top: -11.75rem;
-    right: -2rem;
+
+
+
     padding: 0%;
     width: 20.5rem;
     height: 3rem;
@@ -102,7 +119,7 @@ input[type=range] {
     align-self:center;
     overflow: hidden;
     box-shadow: var(--inner-shadow);
-    transform: rotate(90deg);
+    transform: rotate(90deg) translateX(calc(18rem/2)) translateY(8rem);
   }
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -149,25 +166,74 @@ input[type=range]::-moz-range-progress {
 
 .monthli ul{
     padding: 0;
-    width: calc(100% + 1rem);
+
 }
 .monthli li{
-    width: calc(100% + 1rem);
+
     line-height: 1.75rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
     text-align: right;
     list-style: none;
-    font-variant: small-caps;
+
     opacity: .5;
 }
-.label-wrapper{
-    width: calc(100% + 1rem);
-    z-index: 1;
-    width: max-content;
+
+.date-range label{text-align: left;}
+
+
+#dashboard-submit{
+    overflow-y: hidden;
+    overflow-x: hidden;
+    color: #ffc107;
+    width: 12rem;
+    height: 4rem;
+    display: block;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+    text-transform: capitalize;
+    border: 1px solid;
+    border-color: #ffc107;
+    padding: .5rem 0 .5rem 0;
+    transition: .02s .2s cubic-bezier(.1, 0, .1, 1);
+    cursor: pointer;
+}
+#dashboard-submit #submit-bg{
+    display:block;
+    block-size: 100%;
+    padding: .5rem 1rem .5rem 1rem;
+    text-align: start;
+    color: #ffffff;
+    background-color: #d37800;
+    justify-items: start;
+    width: 12rem;
+    height: 4.5rem;
+    top: calc(-100% - 1rem);
+    right: calc(100% );
     position: relative;
-    top: 0px;
-    right: 0rem;
+    transition: .3s .2s cubic-bezier(.1, 0, .1, 1), left .3s cubic-bezier(.1, 0, .1, 1);
+	z-index: 1
+}
+#dashboard-submit input {
+    width: 12rem;
+    z-index: 2;
+    display: block;
+    background-color: transparent;
+    color: #ffc107;
+    font-size: 2rem;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    transition: .5s .3s cubic-bezier(.1, 0, .1, 1),
 }
 
-
-
+#dashboard-submit:hover #submit-bg{
+    right:calc(-100% + 3rem);
+    background-color: #d37800;
+    transition: right .5s .2s cubic-bezier(.1, 0, .1, 1) ease-in-out;
+    padding: .5rem;
+    cursor: pointer;
+}
+#dashboard-submit:hover input{
+    transform: translateX(-2rem);
+    transition:  .5s cubic-bezier(.1, 0, .1, 1), left .5s .2s cubic-bezier(.1, 0, .1, 1)
+}

@@ -1,107 +1,116 @@
 {% extends "base.html" %}
 
 
+
 {% block content %}
 {% load static %}
-<div class="container" style=" margin-top: 2vh;">
+    <div class="container " style=" margin-top: 2vh;">
 
-</div>
+    </div>
 {% endblock %}
 
-
 {% block dashboard %}
-{% load static %}
-<div id="dashboard" class="container-fluid p-5 justify-content-around align-content-stretch align-items-stretch">
-    <form action="" class="d-flex flex-column gap-4 py-5" method="get">
-         <div class="row text-start align-items-stretch pe-5 justify-content-evenly">
-             <div class="d-flex gap-5 justify-content-around ">
-                <label for='carrierList'></label>
-                <div class="form-check form-switch">
-                   <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked>
-                   <label class="form-check-label" for="flexSwitchCheckDefault">Hapag</label>
-                 </div>
-                 <div class="form-check form-switch">
-                   <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
-                   <label class="form-check-label" for="flexSwitchCheckChecked">MSC</label>
-                 </div>
-                 <div class="form-check form-switch">
-                   <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDisabled" disabled>
-                   <label class="form-check-label" for="flexSwitchCheckDisabled">Maersk</label>
-                 </div>
-                 <div class="form-check form-switch">
-                   <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" disabled>
-                   <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">CMA</label>
-                 </div>
-             </div>
-         </div>
-         <div>
-             <hr>
-         </div>
-         <div class="row text-center justify-content-evenly">
-             <div class="col-6">
-                 <fieldset oninput="showDate('MonthFrom','monthF','monthFROMlist')">
-                     <div class="gap-4 vstack">
-                         <label>From</label>
-                         <output name="month" id="monthF" for="MonthFrom" style="display:none;"></output>
-                         <div class="d-inline-block">
-                             <div class="d-block label-wrapper ">
-                                 <ul id="monthFROMlist" class="p-0 m-0 monthli" name="month">
-                                     <li value="1" label="January">January </li>
-                                     <li value="2" label="February">February</li>
-                                     <li value="3" label="March">March</li>
-                                     <li value="4" label="April">April</li>
-                                     <li value="5" label="May">May</li>
-                                     <li value="6" label="June">June</li>
-                                     <li value="7" label="July">July</li>
-                                     <li value="8" label="August">August</li>
-                                     <li value="9" label="September">September</li>
-                                     <li value="10" label="October">October</li>
-                                     <li value="11" label="November">November</li>
-                                     <li value="12" label="December">December</li>
-                                 </ul>
-                             </div>
-                             <input name="month" type="range" id="MonthFrom" min="0" max="11"  class="slider"  list="MonthList" >
-                         </div>
-                         
-                     </div>
-                 </fieldset>
-             </div>
-             <div class="col-6">
-                 <fieldset oninput="showDate('MonthTo','MonthT','monthTOlist')">
-                     <div class="vstack gap-4 ">
-                         <label >To</label>
-                         <output name="month" id="MonthT" for="MonthTo" style="display:none;"></output>
-                         <div class="d-inline-block">
-                             <div class="d-block label-wrapper ">
-                                 <ul id="monthTOlist" class="p-0 m-0 monthli" name="month">
-                                     <li value="1" label="January">January </li>
-                                     <li value="2" label="February">February</li>
-                                     <li value="3" label="March">March</li>
-                                     <li value="4" label="April">April</li>
-                                     <li value="5" label="May">May</li>
-                                     <li value="6" label="June">June</li>
-                                     <li value="7" label="July">July</li>
-                                     <li value="8" label="August">August</li>
-                                     <li value="9" label="September">September</li>
-                                     <li value="10" label="October">October</li>
-                                     <li value="11" label="November">November</li>
-                                     <li value="12" label="December">December</li>
-                                 </ul>
-                             </div>
-                             <input name="month" type="range" id="MonthTo" min="0" max="11"  class="slider"  list="MonthDataList">
-                         </div>
-                     </div>
-                 </fieldset>
-             </div>
-             <div class="row justify-content-evenly text-center w-75" id="year">
+
+    <div id="dashboard" class="container-fluid p-5 justify-content-around align-content-stretch align-items-stretch">
+        
+        <form action="." class="d-flex flex-column gap-4 py-2" method="post">
+            {% csrf_token %}
+            
+            <div class="row text-start align-items-stretch justify-content-evenly">
+
                 <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="on" checked>
-                    <label class="btn btn-outline-warning" for="btncheck1">2021</label>
-                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="on">
-                    <label class="btn btn-outline-warning" for="btncheck2">2020</label>
-                 </div>
-           </div>
-         </div>
-    </form>
- </div>
+                    <div class="d-flex gap-5 justify-content-around for">
+                        {% for item in form.carriers %}
+                            {% if 'hlc' == item.data.value %}
+                            <div class="form-switch">
+                                <input class="form-check-input" name='carriers' type="checkbox" role="switch" id="{{item.data.attrs.id}}" value="{{item.data.value}}" checked>
+                                <label class="form-check-label" for="{{item.data.attrs.id}}">{{item.data.label}}</label>
+                            </div>
+                            {% elif item.data.value == 'msc' or item.data.value == 'maeu' %}
+                            <div class="form-switch">
+                                <input class="form-check-input" name='carriers' type="checkbox" role="switch" id="{{item.data.attrs.id}}" value="{{item.data.value}}"  disabled>
+                                <label class="form-check-label" for="{{item.data.attrs.id}}">{{item.data.label}}</label>
+                            </div>
+                            {% else %}
+                            <div class="form-switch">
+                                <input class="form-check-input" name='carriers' type="checkbox" role="switch" id="{{item.data.attrs.id}}" value="{{item.data.value}}" >
+                                <label class="form-check-label" for="{{item.data.attrs.id}}">{{item.data.label}}</label>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+            <div>
+                <hr>
+                <legend class="text-white-75 p-0" style="font-variant-caps: all-petite-caps;font-size:1rem;color: #d37800;">Select date range</legend>
+            </div>
+            <div class="row text-center justify-content-evenly">
+                <div class="col-6 date-range">
+                    <fieldset oninput="showDate('MonthFrom','monthFROMlist')">
+                        <div class="container-fluid ">
+                            <label class="row">From</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <ul id="monthFROMlist" class="p-0 m-0 monthli" name="month">
+                                        {% for key, value in months.items %}
+                                        <li value="{{key}}" label={{value}}>{{value}}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="col-6">
+                                    {{form.monthF}}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-6 date-range">
+                    <fieldset oninput="showDate('MonthTo','monthTOlist')">
+                        <div class="container-fluid ">
+                            <label class="row">To</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <ul id="monthTOlist" class="p-0 m-0 monthli" name="month">
+                                    {% for key, value in months.items %}
+                                    <li value="{{key}}" label={{value}}>{{value}}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="col-6">
+                                    {{form.monthT}}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="row justify-content-evenly text-center w-75 my-4 pt-4" id="year">
+                    <div class=" btn-group btn-group-toggle" data-toggle="buttons checkbox">
+                        {% for item in form.year %}
+                            {% if '2021' == item.data.label %}
+                                <input type="checkbox" class="btn-check" name="year" value='{{item.data.value}}' id="{{item.data.attrs.id}}" autocomplete="on" checked>
+                                <label class="btn btn-outline-warning fw-bold" for='{{item.data.attrs.id}}'>{{item.data.value}}</label>
+                            {% else %}
+                                <input type="checkbox" class="btn-check" name="year" value='{{item.data.value}}' id="{{item.data.attrs.id}}" autocomplete="on">
+                                <label class="btn btn-outline-warning fw-bold" for='{{item.data.attrs.id}}'>{{item.data.value}}</label>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div id="dashboard-submit" tabindex="1">
+
+                <input type="submit" value="SUBMIT"  role="button">
+                <div id="submit-bg"><i class="bi bi-chevron-double-right" style="font-size: 2rem; cursor: pointer;"></i></div>
+                
+            </div>
+
+            <div id='dashboard-bg'></div>
+        </form>
+        
+    </div>
  {% endblock %}
+
+                            

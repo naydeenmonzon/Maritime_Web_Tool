@@ -1,52 +1,55 @@
-from django import forms
+
 from datetime import datetime
-import calendar
+from django.template.loader import render_to_string
+from django import forms
+from django.db import models
+from django.db.models.aggregates import Variance
+from django.db.models.lookups import Range, YearLte
+from django.forms import fields, widgets
+from django.forms.models import model_to_dict
+from django.utils.regex_helper import contains
+from django.utils.translation import activate, gettext_lazy as _
+from datetime import date
+from django.forms.widgets import HiddenInput, Widget
+
+from .models import CARRIER_LIST, YEARS, MONTH_LIST, MONTH_DICT
 
 
 
-currentMonth = datetime.now().month
-currentYear = datetime.now().year
 
-monthsNUM = [currentMonth for currentMonth in range(1,13)]
-monthsNAME = [calendar.month_name[month_idx] for month_idx in range(1, 13)]
 
-MONTH_LIST = list(zip(monthsNUM,monthsNAME))
-MONTH_DICT = dict(zip(monthsNUM,monthsNAME))
-CARRIER_LIST = [
-    ('hlc','Hapag-Lloyd'),
-    ('cma', 'CMA'),
-    ('maeu', 'Maersk'),
-    ('msc', 'MSC')
-]
-YEAR_CHOICES = ['2020','2021']
+class BSfilterForm(forms.Form):
 
-data = {
-    'carrier':'hlc',
-    'year':'2021',
-    'montFrom':currentMonth,
-    'monthTo':currentMonth,
-}
+    carriers = forms.MultipleChoiceField(
+        required=True,
+        widget=forms.CheckboxSelectMultiple(attrs={
+            'class':"form-check-input",
+            'type':"checkbox",
+            'role':"switch",}),
+        choices=CARRIER_LIST,
+        label= 'Carriers',)
 
-class DashboardFilter(forms.Form):
-    carrier = forms.MultipleChoiceField(
-        label='carrierList',
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        choices=CARRIER_LIST
-    )
+    monthF = forms.IntegerField(
+        required=True,
+        min_value=1,
+        max_value=12,
+        widget=forms.NumberInput(
+            attrs={'class':'slider','type':'range','id':'MonthFrom',}))
+
+    monthT = forms.IntegerField(
+        required=True,
+        min_value=1,
+        max_value=12,
+        widget=forms.NumberInput(attrs={'class':'slider','type':'range','id':'MonthTo',}))
+        
     year = forms.MultipleChoiceField(
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        choices=YEAR_CHOICES
+        required=True,
+        choices=YEARS,
+        widget=forms.CheckboxSelectMultiple(attrs={
+            'type':'checkbox','class':'btn-check', 'name':'yearOptions','autocomplete':'on'
+        }),
     )
-    monthFrom = forms.ChoiceField(
-        required=False,
-        widget = forms.Select,
-        choices=MONTH_LIST
-    )
-    monthTo = forms.ChoiceField(
-        required=False,
-        widget = forms.Select,
-        choices=MONTH_LIST
-    )
-print(DashboardFilter)
+    
+
+
+
