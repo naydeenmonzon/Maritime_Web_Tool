@@ -5,4 +5,4 @@ requests
 # django_filters
 selenium
 bs4
-# webdriver_manager
+webdriver_manager
