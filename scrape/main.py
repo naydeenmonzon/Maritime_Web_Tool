@@ -82,12 +82,12 @@ def HPAG(year,topic,mFROM,mTO):
     HLC_homepage = 'https://www.hapag-lloyd.com/en/home.html' 
     driver.get(HLC_homepage)
     driver.implicitly_wait(10)
+    # try:
+    #     time.sleep(5)
+    #     privacy = driver.find_element(By.XPATH, '/html[1]/body[1]/div[6]/div[2]/div[3]/div[1]/button[1]')
+    #     # privacy = driver.find_element(By.CSS_SELECTOR, ".save-preference-btn-handler")
+    #     privacy.click()
     try:
-        time.sleep(5)
-        privacy = driver.find_element(By.XPATH, '/html[1]/body[1]/div[6]/div[2]/div[3]/div[1]/button[1]')
-        # privacy = driver.find_element(By.CSS_SELECTOR, ".save-preference-btn-handler")
-        privacy.click()
-    except ElementNotInteractableException:
         time.sleep(5)
         privacy = driver.find_element(By.CSS_SELECTOR,'.save-preference-btn-handler.onetrust-close-btn-handler')
         privacy.click()
