@@ -57,19 +57,19 @@ def screenSize():
 def _init_browser():
   
 
-    # chrome_options = webdriver.ChromeOptions()
-    # chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    # chrome_options.add_argument("--headless")
-    # chrome_options.add_argument("--disable-dev-shm-usage")
-    # chrome_options.add_argument("--no-sandbox")
-    # chrome_options.add_argument("--remote-debugging-port=9222")
-    # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--remote-debugging-port=9222")
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     
  
-    driver = webdriver.Chrome(ChromeDriverManager().install())
-    options = Options()
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    options.page_load_strategy = 'normal'
+    # driver = webdriver.Chrome(ChromeDriverManager().install())
+    # options = Options()
+    # options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    # options.page_load_strategy = 'normal'
     # driver = webdriver.Chrome(**executable_path,options=options)
 
     return driver
