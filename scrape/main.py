@@ -1,17 +1,30 @@
+from logging import error
 import os
 
-# from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import ElementNotInteractableException, NoSuchElementException
 
+
+# //Declare and initialise a fluent wait
+# FluentWait wait = new FluentWait(driver);
+# //Specify the timout of the wait
+# wait.withTimeout(5000, TimeUnit.MILLISECONDS);
+# //Specify polling time
+# wait.pollingEvery(250, TimeUnit.MILLISECONDS);
+# //Specify what exceptions to ignore
+# wait.ignoring(NoSuchElementException.class)
+
+# //This is how we specify the condition to wait on.
+# wait.until(ExpectedConditions.alertIsPresent());
 
 from bs4 import BeautifulSoup as bs
 
@@ -42,21 +55,21 @@ def screenSize():
 
 
 def _init_browser():
-    executable_path = 'Users/nayde/bin/google-chrome'
+  
 
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--remote-debugging-port=9222")
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
-    # driver = webdriver.Chrome(executable_path=executable_path, options=chrome_options)
-
+    # chrome_options = webdriver.ChromeOptions()
+    # chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    # chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--disable-dev-shm-usage")
+    # chrome_options.add_argument("--no-sandbox")
+    # chrome_options.add_argument("--remote-debugging-port=9222")
+    # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     
-    # options = Options()
-    # options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    # options.page_load_strategy = 'normal'
+ 
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+    options = Options()
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.page_load_strategy = 'normal'
     # driver = webdriver.Chrome(**executable_path,options=options)
 
     return driver
@@ -71,9 +84,14 @@ def HPAG(year,topic,mFROM,mTO):
     driver.implicitly_wait(10)
     try:
         time.sleep(5)
-        privacy = driver.find_element(By.CSS_SELECTOR, ".save-preference-btn-handler")
+        privacy = driver.find_element(By.XPATH, '/html[1]/body[1]/div[6]/div[2]/div[3]/div[1]/button[1]')
+        # privacy = driver.find_element(By.CSS_SELECTOR, ".save-preference-btn-handler")
         privacy.click()
-    except NoSuchElementException:
+    except ElementNotInteractableException:
+        time.sleep(5)
+        privacy = driver.find_element(By.CSS_SELECTOR,'.save-preference-btn-handler.onetrust-close-btn-handler')
+        privacy.click()
+    except ElementNotInteractableException:
         print('didnt pass cookie check')
         driver.quit()
 
@@ -92,6 +110,10 @@ def HPAG(year,topic,mFROM,mTO):
         print('loop function begins')
         counter = 0
         more = driver.find_element(By.CSS_SELECTOR,'button[class="hal-button hal-button--primary"]')
+        WebDriverWait(driver, 30).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR,'button[class="hal-button hal-button--primary"]'))
+        )
+        
         while more.is_enabled() is True:
         
             more.click()
