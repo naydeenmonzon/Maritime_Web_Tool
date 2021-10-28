@@ -1,13 +1,4 @@
 import os
-from selenium.common.exceptions import NoSuchElementException
-# from splinter import browser
-
-chrome_options = webdriver.ChromeOptions()
-chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--nosandbox")
-driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
 # from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
@@ -19,12 +10,9 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.common.exceptions import NoSuchElementException
 
 from bs4 import BeautifulSoup as bs
-
-# from selenium import webdriver
-# from selenium.webdriver import Chrome
-# from selenium.webdriver.chrome.options import Options
 
 # from splinter import Browser
 
@@ -33,10 +21,6 @@ from datetime import datetime
 
 import json
 import re
-
-year = '2021'
-topic = 'surcharges'
-
 
 
 
@@ -57,11 +41,19 @@ def screenSize():
 
 
 def _init_browser():
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    options = Options()
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    options.page_load_strategy = 'normal'
-    driver = webdriver.Chrome(**executable_path,options=options)
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--nosandbox")
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+
+    # executable_path = {'executable_path': ChromeDriverManager().install()}
+    # options = Options()
+    # options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    # options.page_load_strategy = 'normal'
+    # driver = webdriver.Chrome(**executable_path,options=options)
 
     return driver
 
