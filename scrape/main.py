@@ -1,6 +1,6 @@
 import os
 
-from webdriver_manager.chrome import ChromeDriverManager
+# from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
@@ -42,6 +42,7 @@ def screenSize():
 
 
 def _init_browser():
+  
 
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
@@ -49,7 +50,7 @@ def _init_browser():
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--nosandbox")
     chrome_options.add_argument("--remote-debugging-port=9222")
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
 
 
     
