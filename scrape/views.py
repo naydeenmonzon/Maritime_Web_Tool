@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from .models import MONTH_DICT, MONTH_LIST, YEARS,CARRIER_LIST
 from .forms import BSfilterForm
-
+from .main import _init_SCRAPER
 
 
 
@@ -36,13 +36,16 @@ def blanksailing(request):
     if request.method =='POST':
         form = BSfilterForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
+            data = form.cleaned_data
+            _init_SCRAPER(data)
+            # print(data)
         else:
             print(form.errors)
     context = {
         'form':form,
         'months':MONTH_DICT
         }
+
     return render(request,'scrape/blanksailing.html',context)
 
 

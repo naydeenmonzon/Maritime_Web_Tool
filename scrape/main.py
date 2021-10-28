@@ -67,15 +67,12 @@ def _init_browser():
 
 
 
-def HPAG(year,topic):
+def HPAG(year,topic,mFROM,mTO):
     
     driver = _init_browser()
     HLC_homepage = 'https://www.hapag-lloyd.com/en/home.html' 
     driver.get(HLC_homepage)
-
-
     driver.implicitly_wait(10)
-
     try:
         time.sleep(5)
         privacy = driver.find_element(By.CSS_SELECTOR, ".save-preference-btn-handler")
@@ -87,8 +84,6 @@ def HPAG(year,topic):
     driver.maximize_window()
     screenSize()
     driver.implicitly_wait(10)
-
-    
 
     try:
         HLC_newspage = f'https://www.hapag-lloyd.com/en/services-information/news.html#selectedtopics={topic}&year={year}&month='
@@ -123,11 +118,35 @@ def HPAG(year,topic):
         l.append(a)
         print(a)
 
-    
     driver.quit()
+    return l
+    
 
-HPAG(year,topic)
+# HPAG(year,topic)
 
+
+
+def _init_SCRAPER(content):
+    
+    carriers = content['carriers']
+    mFROM = content['monthF']
+    mTO = content['monthT']
+    year = content['year']
+
+    for y in year:
+        if len(year) < 2:
+            thisY = y
+            for c in carriers:
+                if c == 'hlc':
+                    d1 = HPAG(thisY,'surcharges',mFROM,mTO)
+            return d1
+        else:
+            for c in carriers:
+                if c == 'hlc':
+                    dA = HPAG(year[0],'surcharges',mFROM,mTO)
+                    dB = HPAG(year[0],'surcharges',mFROM,mTO)
+            return dA,dB
+    # print(carriers,mFROM,mTO,year)
 
 
 
