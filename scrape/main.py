@@ -1,6 +1,6 @@
 import os
 
-# from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
@@ -47,9 +47,11 @@ def _init_browser():
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--nosandbox")
+    chrome_options.add_argument("--remote-debugging-port=9222")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
-    # executable_path = {'executable_path': ChromeDriverManager().install()}
+
+    
     # options = Options()
     # options.add_experimental_option('excludeSwitches', ['enable-logging'])
     # options.page_load_strategy = 'normal'
